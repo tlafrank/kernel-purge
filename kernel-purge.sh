@@ -11,11 +11,20 @@ echo "Running kernel version is: ${current_kernel}"
 
 #Display the currently installed kernel packages which are unused
 echo 'Installed and unusued kernel packages:'
-dpkg -l 'linux-*' | sed '/^ii/!d;/libc-dev/d;/'${current_ver}'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'
+select kernelVersion in dpkg -l 'linux-*' | sed '/^ii/!d;/libc-dev/d;/'${current_ver}'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'
+do
+  case $kernelVersion in
+    
+    *)
+      echo "$kernelVersion"
+      exit
+      break;;
+  esac
+done
 
 #Ask the user which one they wish to delete
-read -p 'Which version do you want to remove (I.e. 4.15.0-33)? ' -r
-todelete=$REPLY
+#read -p 'Which version do you want to remove (I.e. 4.15.0-33)? ' -r
+#todelete=$REPLY
 
 #Check that the version exists, otherwise exit
 exists="$(dpkg -l 'linux-*' | sed '/^ii/!d;/'${current_ver}'/d;/-'${todelete}'-/!d' | wc -l)"
