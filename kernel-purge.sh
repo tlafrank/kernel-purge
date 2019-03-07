@@ -14,7 +14,7 @@ echo 'Installed and unusued kernel packages:'
 select kernelVersion in dpkg -l 'linux-*' | sed '/^ii/!d;/libc-dev/d;/'${current_ver}'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d'
 do
   case $kernelVersion in
-    
+
     *)
       echo "$kernelVersion"
       exit
@@ -34,7 +34,7 @@ then
   #Version exists, confirm that the version is to be deleted
   read -p ${todelete}' exists. Are you sure [y/n]? ' -n 1 -r
   printf '\n'
-  
+
   #User selected Yes, delete the kernel
   if [[ $REPLY =~ ^[Yy]$ ]]
   then
